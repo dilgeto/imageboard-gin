@@ -1,10 +1,8 @@
 package reply
 
-import {
-	"context"
-	"fmt"
-	"github.com/jackc/pgx"
-}
+import (
+	"github.com/jackc/pgx/v5"
+)
 
 type Repository struct {
 	DB *pgx.Conn

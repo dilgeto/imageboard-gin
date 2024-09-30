@@ -1,10 +1,11 @@
 package category
 
-import {
+import (
 	"context"
 	"fmt"
+
 	"github.com/jackc/pgx/v5"
-}
+)
 
 type Repository struct {
 	DB *pgx.Conn
@@ -12,8 +13,8 @@ type Repository struct {
 
 func (repo *Repository) saveCategory(c Category) (*Category, error) {
 	var category Category
-	err := repo.DB.QueryRow(context.Background(), "INSERT INTO category " +
-		"(name,nsfw) " +
+	err := repo.DB.QueryRow(context.Background(), "INSERT INTO category "+
+		"(name,nsfw) "+
 		"VALUES ($1, $2)",
 		c.Name, c.Nsfw).
 		Scan(&category.Id, &category.Name, &category.Nswf)
@@ -26,10 +27,10 @@ func (repo *Repository) saveCategory(c Category) (*Category, error) {
 
 func (repo *Repository) getCategoryById(id uint64) (*Category, error) {
 	var category Category
-	err := repo.DB.QueryRow(context.Background(), "SELECT * FROM category " +
+	err := repo.DB.QueryRow(context.Background(), "SELECT * FROM category "+
 		"WHERE id = $1", id).Scan(
 		&category.Id, &category.Name, &category.Nsfw)
-	
+
 	if err != nil {
 		err = fmt.Errorf("Failed query, could not get category with ID: - %w", err)
 		return nil, err
@@ -56,9 +57,9 @@ func (repo *Repository) getAllCategories() ([]Category, err) {
 }
 
 func (repo *Repository) updateCategory(c Category) err {
-	_, err := repo.DB.Exec(context.Background(), "UPDATE category " +
+	_, err := repo.DB.Exec(context.Background(), "UPDATE category "+
 		"SET name = $2, nsfw = $3 WHERE id = $1", c.Id, c.Name, c.Nsfw)
-	
+
 	if err != nil {
 		err = fmt.Errorf("Failed query, couldn't update category: - %w", err)
 		return err

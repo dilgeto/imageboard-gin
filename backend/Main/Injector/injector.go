@@ -1,16 +1,16 @@
-package injector
+package Injector
 
-import {
+import (
 	"context"
 	"log"
 
-	category "github.com/dilgeto/imageboard-gin/backend/Internal/Category"
 	board "github.com/dilgeto/imageboard-gin/backend/Internal/Board"
-	thread "github.com/dilgeto/imageboard-gin/backend/Internal/Thread"
+	category "github.com/dilgeto/imageboard-gin/backend/Internal/Category"
 	reply "github.com/dilgeto/imageboard-gin/backend/Internal/Reply"
+	thread "github.com/dilgeto/imageboard-gin/backend/Internal/Thread"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
-}
+)
 
 func InjectDependencies(rout *gin.Engine) {
 	db, err := ConnectPostgreSQL("postgres", "postgres", "localhost", "5432", "imageboard")
