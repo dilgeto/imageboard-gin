@@ -11,7 +11,7 @@ import (
 type IReplyService interface {
 	saveReply(Reply) (*Reply, error)
 	getReplyById(uint64) (*Reply, error)
-	getAllReplies() (*Reply, error)
+	getAllReplies() ([]Reply, error)
 	updateReply(Reply) error
 	deleteReplyById(uint64) error
 }

@@ -11,7 +11,7 @@ import (
 type IThreadService interface {
 	saveThread(Thread) (*Thread, error)
 	getThreadById(uint64) (*Thread, error)
-	getAllThreads() (*Thread, error)
+	getAllThreads() ([]Thread, error)
 	updateThread(Thread) error
 	deleteThreadById(uint64) error
 }

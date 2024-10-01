@@ -11,7 +11,7 @@ import (
 type ICategoryService interface {
 	saveCategory(Category) (*Category, error)
 	getCategoryById(uint64) (*Category, error)
-	getAllCategories() (*Category, error)
+	getAllCategories() ([]Category, error)
 	updateCategory(Category) error
 	deleteCategoryById(uint64) error
 }

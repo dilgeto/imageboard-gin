@@ -11,7 +11,7 @@ import (
 type IBoardService interface {
 	saveBoard(Board) (*Board, error)
 	getBoardById(uint64) (*Board, error)
-	getAllBoards() (*Board, error)
+	getAllBoards() ([]Board, error)
 	updateBoard(Board) error
 	deleteBoardById(uint64) error
 }
