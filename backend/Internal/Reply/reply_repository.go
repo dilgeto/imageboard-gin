@@ -59,7 +59,7 @@ func (repo *Repository) getAllReplies() ([]Reply, error) {
 func (repo *Repository) updateReply(r Reply) error {
 	_, err := repo.DB.Exec(context.Background(), "UPDATE reply "+
 		"SET subject = $2, username = $3, timestamp = $4, comment = $5, id_thread = $6 WHERE id = $1",
-		r.Id, r.File, r.Username, r.timestamp, r.Comment, r.Id_thread)
+		r.Id, r.File, r.Username, r.Timestamp, r.Comment, r.Id_thread)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, couldn't update reply: - %w", err)

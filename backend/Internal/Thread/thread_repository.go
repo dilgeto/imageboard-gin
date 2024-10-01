@@ -60,7 +60,7 @@ func (repo *Repository) getAllThreads() ([]Thread, error) {
 func (repo *Repository) updateThread(t Thread) error {
 	_, err := repo.DB.Exec(context.Background(), "UPDATE thread "+
 		"SET subject = $2, username = $3, timestamp = $4, comment = $5, replycount = $6, imagecount = $7, isarchived = $8, ispinned = $9, boardcode = $10 WHERE id = $1",
-		t.Id, t.Subject, t.Username, t.timestamp, t.Comment, t.ReplyCount, t.ImageCount, t.IsArchived, t.IsPinned, t.BoardCode)
+		t.Id, t.Subject, t.Username, t.Timestamp, t.Comment, t.ReplyCount, t.ImageCount, t.IsArchived, t.IsPinned, t.BoardCode)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, couldn't update thread: - %w", err)
