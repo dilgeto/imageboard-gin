@@ -14,10 +14,10 @@ type Repository struct {
 func (repo *Repository) saveThread(t Thread) (*Thread, error) {
 	var thread Thread
 	err := repo.DB.QueryRow(context.Background(), "INSERT INTO thread "+
-		"(subject, username, timestamp, comment, replycount, imagecount, "+
+		"(file, subject, username, timestamp, comment, replycount, imagecount, "+
 		"isarchived, ispinned, boardcode) "+
-		"VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
-		t.Subject, t.Username, t.Timestamp, t.Comment, t.ReplyCount, t.ImageCount, t.IsArchived, t.IsPinned, t.BoardCode).
+		"VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+		t.File, t.Subject, t.Username, t.Timestamp, t.Comment, t.ReplyCount, t.ImageCount, t.IsArchived, t.IsPinned, t.BoardCode).
 		Scan(&thread.Id, &thread.Subject, &thread.Username, &thread.Timestamp, &thread.Comment, &thread.ReplyCount, &thread.ImageCount, &thread.IsArchived, &thread.IsPinned, &thread.BoardCode)
 
 	if err != nil {
@@ -30,7 +30,7 @@ func (repo *Repository) getThreadById(id uint64) (*Thread, error) {
 	var thread Thread
 	err := repo.DB.QueryRow(context.Background(), "SELECT * FROM thread "+
 		"WHERE id = $1", id).Scan(
-		&thread.Id, &thread.Subject, &thread.Username, &thread.Timestamp, &thread.Comment, &thread.ReplyCount, &thread.ImageCount, &thread.IsArchived, &thread.IsPinned, &thread.BoardCode)
+		&thread.Id, &thread.File, &thread.Subject, &thread.Username, &thread.Timestamp, &thread.Comment, &thread.ReplyCount, &thread.ImageCount, &thread.IsArchived, &thread.IsPinned, &thread.BoardCode)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, could not get thread with ID: - %w", err)
@@ -59,8 +59,8 @@ func (repo *Repository) getAllThreads() ([]Thread, error) {
 
 func (repo *Repository) updateThread(t Thread) error {
 	_, err := repo.DB.Exec(context.Background(), "UPDATE thread "+
-		"SET subject = $2, username = $3, timestamp = $4, comment = $5, replycount = $6, imagecount = $7, isarchived = $8, ispinned = $9, boardcode = $10 WHERE id = $1",
-		t.Id, t.Subject, t.Username, t.Timestamp, t.Comment, t.ReplyCount, t.ImageCount, t.IsArchived, t.IsPinned, t.BoardCode)
+		"SET file = $2, subject = $3, username = $4, timestamp = $5, comment = $6, replycount = $7, imagecount = $8, isarchived = $9, ispinned = $10, boardcode = $11 WHERE id = $1",
+		t.Id, t.File, t.Subject, t.Username, t.Timestamp, t.Comment, t.ReplyCount, t.ImageCount, t.IsArchived, t.IsPinned, t.BoardCode)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, couldn't update thread: - %w", err)

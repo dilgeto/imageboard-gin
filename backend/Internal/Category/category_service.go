@@ -10,6 +10,7 @@ type ICategoryRepository interface {
 	getAllCategories() ([]Category, error)
 	updateCategory(Category) error
 	deleteCategoryById(uint64) error
+	getCategoryByName(string) (*Category, error)
 }
 
 type Service struct {
@@ -17,6 +18,10 @@ type Service struct {
 }
 
 func (serv *Service) saveCategory(c Category) (*Category, error) {
+	existe, err := serv.Repository.getCategoryByName(c.Name)
+	if existe != nil {
+		return nil, err
+	}
 	return serv.Repository.saveCategory(c)
 }
 

@@ -1,6 +1,10 @@
 package thread
 
-import data "github.com/dilgeto/imageboard-gin/backend/Data"
+import (
+	"time"
+
+	data "github.com/dilgeto/imageboard-gin/backend/Data"
+)
 
 type Thread = data.Thread
 
@@ -17,6 +21,7 @@ type Service struct {
 }
 
 func (serv *Service) saveThread(t Thread) (*Thread, error) {
+	t.Timestamp = uint64(time.Now().Unix())
 	return serv.Repository.saveThread(t)
 }
 

@@ -2,6 +2,7 @@ package data
 
 type Thread struct {
 	Id         uint64
+	File       string
 	Subject    string
 	Username   string
 	Timestamp  uint64

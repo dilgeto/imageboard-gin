@@ -1,6 +1,10 @@
 package reply
 
-import data "github.com/dilgeto/imageboard-gin/backend/Data"
+import (
+	"time"
+
+	data "github.com/dilgeto/imageboard-gin/backend/Data"
+)
 
 type Reply = data.Reply
 
@@ -17,6 +21,7 @@ type Service struct {
 }
 
 func (serv *Service) saveReply(r Reply) (*Reply, error) {
+	r.Timestamp = uint64(time.Now().Unix())
 	return serv.Repository.saveReply(r)
 }
 

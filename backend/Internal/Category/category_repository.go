@@ -78,3 +78,16 @@ func (repo *Repository) deleteCategoryById(id uint64) error {
 
 	return nil
 }
+
+func (repo *Repository) getCategoryByName(name string) (*Category, error) {
+	var category Category
+	err := repo.DB.QueryRow(context.Background(), "SELECT * FROM category WHERE name = $1", name).
+		Scan(&category.Id, &category.Name, &category.Nsfw)
+
+	if err != nil {
+		err = fmt.Errorf("failed query, couldn't get an specific category: - %w", err)
+		return nil, err
+	}
+
+	return &category, nil
+}

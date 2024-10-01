@@ -10,13 +10,19 @@ type IBoardRepository interface {
 	getAllBoards() ([]Board, error)
 	updateBoard(Board) error
 	deleteBoardById(uint64) error
+	getBoardByCode(string) (*Board, error)
 }
 
 type Service struct {
 	Repository IBoardRepository
 }
 
+// TODO: Arreglar método para que reciba el código, nombre y con eso debe generar el Board.
 func (serv *Service) saveBoard(b Board) (*Board, error) {
+	exist, err := serv.Repository.getBoardByCode(b.Code)
+	if exist != nil {
+		return nil, err
+	}
 	return serv.Repository.saveBoard(b)
 }
 

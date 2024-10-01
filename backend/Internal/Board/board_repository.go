@@ -78,3 +78,18 @@ func (repo *Repository) deleteBoardById(id uint64) error {
 
 	return nil
 }
+
+func (repo *Repository) getBoardByCode(code string) (*Board, error) {
+	var board Board
+	err := repo.DB.QueryRow(context.Background(), "SELECT * FROM board WHERE code = $1",
+		code).Scan(&board.Id, &board.Code, &board.Name, &board.Id_category)
+
+	if err != nil {
+		err = fmt.Errorf("failed to get board by code: - %w", err)
+		return nil, err
+	}
+
+	return &board, nil
+}
+
+// TODO: Hacer una query que verifique la existencia del código,
