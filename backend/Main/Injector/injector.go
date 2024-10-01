@@ -20,22 +20,22 @@ func InjectDependencies(rout *gin.Engine) {
 
 	categoryRepository := &category.Repository{DB: db}
 	categoryService := &category.Service{Repository: categoryRepository}
-	categoryController := &category.Controller{Service: categoryService}
+	categoryController := category.Controller{Service: categoryService}
 	categoryController.LinkPaths(rout)
 
 	boardRepository := &board.Repository{DB: db}
 	boardService := &board.Service{Repository: boardRepository}
-	boardController := &board.Controller{Service: boardService}
+	boardController := board.Controller{Service: boardService}
 	boardController.LinkPaths(rout)
 
 	threadRepository := &thread.Repository{DB: db}
 	threadService := &thread.Service{Repository: threadRepository}
-	threadController := &thread.Controller{Service: threadService}
+	threadController := thread.Controller{Service: threadService}
 	threadController.LinkPaths(rout)
 
 	replyRepository := &reply.Repository{DB: db}
 	replyService := &reply.Service{Repository: replyRepository}
-	replyController := &reply.Controller{Service: replyService}
+	replyController := reply.Controller{Service: replyService}
 	replyController.LinkPaths(rout)
 }
 
