@@ -1,8 +1,7 @@
 package data
 
 type Reply struct {
-	Id        uint32
-	Number    uint32
+	Id        uint64
 	File      string
 	Username  string
 	Timestamp uint64
