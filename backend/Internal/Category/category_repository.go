@@ -17,7 +17,7 @@ func (repo *Repository) saveCategory(c Category) (*Category, error) {
 		"(name,nsfw) "+
 		"VALUES ($1, $2)",
 		c.Name, c.Nsfw).
-		Scan(&category.Id, &category.Name, &category.Nswf)
+		Scan(&category.Id, &category.Name, &category.Nsfw)
 
 	if err != nil {
 		err = fmt.Errorf("Failed query, could not save category: - %w", err)
@@ -39,7 +39,7 @@ func (repo *Repository) getCategoryById(id uint64) (*Category, error) {
 	return &category, nil
 }
 
-func (repo *Repository) getAllCategories() ([]Category, err) {
+func (repo *Repository) getAllCategories() ([]Category, error) {
 	rows, err := repo.DB.Query(context.Background(), "SELECT * FROM category")
 
 	if err != nil {
@@ -56,7 +56,7 @@ func (repo *Repository) getAllCategories() ([]Category, err) {
 	return categories, nil
 }
 
-func (repo *Repository) updateCategory(c Category) err {
+func (repo *Repository) updateCategory(c Category) error {
 	_, err := repo.DB.Exec(context.Background(), "UPDATE category "+
 		"SET name = $2, nsfw = $3 WHERE id = $1", c.Id, c.Name, c.Nsfw)
 
@@ -68,7 +68,7 @@ func (repo *Repository) updateCategory(c Category) err {
 	return nil
 }
 
-func (repo *Repository) deleteRepairById(id uint64) err {
+func (repo *Repository) deleteRepairById(id uint64) error {
 	_, err := repo.DB.Exec(context.Background(), "DELETE FROM category WHERE id = $1", id)
 
 	if err != nil {

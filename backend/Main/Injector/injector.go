@@ -39,7 +39,7 @@ func InjectDependencies(rout *gin.Engine) {
 	replyController.LinkPaths(rout)
 }
 
-func ConnectPostgreSQL(user string, pass string, host string, port string, dbname string) (*pgx.Conn, err) {
+func ConnectPostgreSQL(user string, pass string, host string, port string, dbname string) (*pgx.Conn, error) {
 	dataSource := "postgres://" + user + ":" + pass + "@" + host + ":" + port + "/imageboard?sslmode=disable"
 
 	db, err := pgx.Connect(context.Background(), dataSource)
