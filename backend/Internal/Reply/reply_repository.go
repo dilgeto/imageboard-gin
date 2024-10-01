@@ -14,10 +14,10 @@ type Repository struct {
 func (repo *Repository) saveReply(r Reply) (*Reply, error) {
 	var reply Reply
 	err := repo.DB.QueryRow(context.Background(), "INSERT INTO reply "+
-		"(file, username, timestamp, comment, id_thread)"+
+		"(filepath, username, timestampp, comment, id_thread)"+
 		"VALUES ($1, $2, $3, $4, $5)",
-		r.File, r.Username, r.Timestamp, r.Comment, r.Id_thread).
-		Scan(&reply.Id, &reply.Username, &reply.Timestamp, &reply.Comment, &reply.Id_thread)
+		r.Filepath, r.Username, r.Timestampp, r.Commenta, r.Id_thread).
+		Scan(&reply.Id_reply, &reply.Username, &reply.Timestampp, &reply.Commenta, &reply.Id_thread)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, could not save reply: - %w", err)
@@ -29,7 +29,7 @@ func (repo *Repository) getReplyById(id uint64) (*Reply, error) {
 	var reply Reply
 	err := repo.DB.QueryRow(context.Background(), "SELECT * FROM reply "+
 		"WHERE id = $1", id).Scan(
-		&reply.Id, &reply.Username, &reply.Timestamp, &reply.Comment, &reply.Id_thread)
+		&reply.Id_reply, &reply.Filepath, &reply.Username, &reply.Timestampp, &reply.Commenta, &reply.Id_thread)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, could not get reply with ID: - %w", err)
@@ -58,8 +58,8 @@ func (repo *Repository) getAllReplies() ([]Reply, error) {
 
 func (repo *Repository) updateReply(r Reply) error {
 	_, err := repo.DB.Exec(context.Background(), "UPDATE reply "+
-		"SET subject = $2, username = $3, timestamp = $4, comment = $5, id_thread = $6 WHERE id = $1",
-		r.Id, r.File, r.Username, r.Timestamp, r.Comment, r.Id_thread)
+		"SET filepath = $2, username = $3, timestampp = $4, commenta = $5, id_thread = $6 WHERE id = $1",
+		r.Id_reply, r.Filepath, r.Username, r.Timestampp, r.Commenta, r.Id_thread)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, couldn't update reply: - %w", err)

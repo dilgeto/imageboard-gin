@@ -21,7 +21,7 @@ type Service struct {
 }
 
 func (serv *Service) saveThread(t Thread) (*Thread, error) {
-	t.Timestamp = uint64(time.Now().Unix())
+	t.Timestampp = uint64(time.Now().Unix())
 	return serv.Repository.saveThread(t)
 }
 

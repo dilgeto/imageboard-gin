@@ -1,7 +1,7 @@
 package data
 
 type Category struct {
-	Id   uint64
-	Name string
-	Nsfw bool
+	Id_category uint64
+	Name        string
+	Nsfw        bool
 }

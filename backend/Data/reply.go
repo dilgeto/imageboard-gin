@@ -1,10 +1,10 @@
 package data
 
 type Reply struct {
-	Id        uint64
-	File      string
-	Username  string
-	Timestamp uint64
-	Comment   string
-	Id_thread uint64
+	Id_reply   uint64
+	Filepath   string
+	Username   string
+	Timestampp uint64
+	Commenta   string
+	Id_thread  uint64
 }

@@ -14,11 +14,11 @@ type Repository struct {
 func (repo *Repository) saveThread(t Thread) (*Thread, error) {
 	var thread Thread
 	err := repo.DB.QueryRow(context.Background(), "INSERT INTO thread "+
-		"(file, subject, username, timestamp, comment, replycount, imagecount, "+
-		"isarchived, ispinned, boardcode) "+
+		"(filepath, subject, username, timestampp, comment, reply_count, image_count, "+
+		"is_archived, is_pinned, code) "+
 		"VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
-		t.File, t.Subject, t.Username, t.Timestamp, t.Comment, t.ReplyCount, t.ImageCount, t.IsArchived, t.IsPinned, t.BoardCode).
-		Scan(&thread.Id, &thread.Subject, &thread.Username, &thread.Timestamp, &thread.Comment, &thread.ReplyCount, &thread.ImageCount, &thread.IsArchived, &thread.IsPinned, &thread.BoardCode)
+		t.Filepath, t.Subject, t.Username, t.Timestampp, t.Commenta, t.Reply_count, t.Image_count, t.Is_archived, t.Is_pinned, t.Code).
+		Scan(&thread.Id_thread, &thread.Filepath, &thread.Subject, &thread.Username, &thread.Timestampp, &thread.Commenta, &thread.Reply_count, &thread.Image_count, &thread.Is_archived, &thread.Is_pinned, &thread.Code)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, could not save board: - %w", err)
@@ -30,7 +30,7 @@ func (repo *Repository) getThreadById(id uint64) (*Thread, error) {
 	var thread Thread
 	err := repo.DB.QueryRow(context.Background(), "SELECT * FROM thread "+
 		"WHERE id = $1", id).Scan(
-		&thread.Id, &thread.File, &thread.Subject, &thread.Username, &thread.Timestamp, &thread.Comment, &thread.ReplyCount, &thread.ImageCount, &thread.IsArchived, &thread.IsPinned, &thread.BoardCode)
+		&thread.Id_thread, &thread.Filepath, &thread.Subject, &thread.Username, &thread.Timestampp, &thread.Commenta, &thread.Reply_count, &thread.Image_count, &thread.Is_archived, &thread.Is_pinned, &thread.Code)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, could not get thread with ID: - %w", err)
@@ -59,8 +59,8 @@ func (repo *Repository) getAllThreads() ([]Thread, error) {
 
 func (repo *Repository) updateThread(t Thread) error {
 	_, err := repo.DB.Exec(context.Background(), "UPDATE thread "+
-		"SET file = $2, subject = $3, username = $4, timestamp = $5, comment = $6, replycount = $7, imagecount = $8, isarchived = $9, ispinned = $10, boardcode = $11 WHERE id = $1",
-		t.Id, t.File, t.Subject, t.Username, t.Timestamp, t.Comment, t.ReplyCount, t.ImageCount, t.IsArchived, t.IsPinned, t.BoardCode)
+		"SET filepath = $2, subject = $3, username = $4, timestampp = $5, comment = $6, reply_count = $7, image_count = $8, is_archived = $9, is_pinned = $10, boardcode = $11 WHERE id = $1",
+		t.Id_thread, t.Filepath, t.Subject, t.Username, t.Timestampp, t.Commenta, t.Reply_count, t.Image_count, t.Is_archived, t.Is_pinned, t.Code)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, couldn't update thread: - %w", err)

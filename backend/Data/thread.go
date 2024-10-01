@@ -1,15 +1,15 @@
 package data
 
 type Thread struct {
-	Id         uint64
-	File       string
-	Subject    string
-	Username   string
-	Timestamp  uint64
-	Comment    string
-	ReplyCount uint16
-	ImageCount uint16
-	IsArchived bool
-	IsPinned   bool
-	BoardCode  string
+	Id_thread   uint64
+	Filepath    string
+	Subject     string
+	Username    string
+	Timestampp  uint64
+	Commenta    string
+	Reply_count uint16
+	Image_count uint16
+	Is_archived bool
+	Is_pinned   bool
+	Code        string
 }
