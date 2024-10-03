@@ -17,7 +17,7 @@ func (repo *Repository) saveCategory(c Category) (*Category, error) {
 		"(name,nsfw) "+
 		"VALUES ($1, $2)",
 		c.Name, c.Nsfw).
-		Scan(&category.Id, &category.Name, &category.Nsfw)
+		Scan(&category.Id_category, &category.Name, &category.Nsfw)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, could not save category: - %w", err)
@@ -29,7 +29,7 @@ func (repo *Repository) getCategoryById(id uint64) (*Category, error) {
 	var category Category
 	err := repo.DB.QueryRow(context.Background(), "SELECT * FROM category "+
 		"WHERE id = $1", id).Scan(
-		&category.Id, &category.Name, &category.Nsfw)
+		&category.Id_category, &category.Name, &category.Nsfw)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, could not get category with ID: - %w", err)
@@ -58,7 +58,7 @@ func (repo *Repository) getAllCategories() ([]Category, error) {
 
 func (repo *Repository) updateCategory(c Category) error {
 	_, err := repo.DB.Exec(context.Background(), "UPDATE category "+
-		"SET name = $2, nsfw = $3 WHERE id = $1", c.Id, c.Name, c.Nsfw)
+		"SET name = $2, nsfw = $3 WHERE id = $1", c.Id_category, c.Name, c.Nsfw)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, couldn't update category: - %w", err)
@@ -82,7 +82,7 @@ func (repo *Repository) deleteCategoryById(id uint64) error {
 func (repo *Repository) getCategoryByName(name string) (*Category, error) {
 	var category Category
 	err := repo.DB.QueryRow(context.Background(), "SELECT * FROM category WHERE name = $1", name).
-		Scan(&category.Id, &category.Name, &category.Nsfw)
+		Scan(&category.Id_category, &category.Name, &category.Nsfw)
 
 	if err != nil {
 		err = fmt.Errorf("failed query, couldn't get an specific category: - %w", err)
