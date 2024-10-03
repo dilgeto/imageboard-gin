@@ -3,6 +3,7 @@ package Injector
 import (
 	"context"
 	"log"
+	"os"
 
 	board "github.com/dilgeto/imageboard-gin/backend/Internal/Board"
 	category "github.com/dilgeto/imageboard-gin/backend/Internal/Category"
@@ -10,10 +11,16 @@ import (
 	thread "github.com/dilgeto/imageboard-gin/backend/Internal/Thread"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
+	"github.com/joho/godotenv"
 )
 
 func InjectDependencies(rout *gin.Engine) {
-	db, err := ConnectPostgreSQL("postgres", "postgres", "localhost", "5432", "imageboard")
+	errData := godotenv.Load()
+	if errData != nil {
+		log.Fatalf("error while loading .env: - %v", errData)
+	}
+
+	db, err := ConnectPostgreSQL(os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("imageboard"))
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
